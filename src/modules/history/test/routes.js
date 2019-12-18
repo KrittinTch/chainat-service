@@ -6,21 +6,19 @@ var request = require('supertest'),
     jwt = require('jsonwebtoken'),
     mongoose = require('mongoose'),
     app = require('../../../config/express'),
-    Review = mongoose.model('Review');
+    History = mongoose.model('History');
 
 var credentials,
     token,
     mockup;
 
-describe('Review CRUD routes tests', function () {
+describe('History CRUD routes tests', function () {
 
     before(function (done) {
         mockup = {
-            name: "ชื่อรีวิว",
-            description: "รายละเอียดรีวิว",
-            location: "สถานที่",
-            imageurl: "www.ggg.com"
-
+            historyname: 'ประวัติความเป็นมา',
+            historydescription: 'รายละเอียดความเป็นมา',
+            historyimage: 'www.ggg.com'
         };
         credentials = {
             username: 'username',
@@ -36,9 +34,9 @@ describe('Review CRUD routes tests', function () {
         done();
     });
 
-    it('should be Review get use token', (done)=>{
+    it('should be History get use token', (done)=>{
         request(app)
-        .get('/api/reviews')
+        .get('/api/historys')
         .set('Authorization', 'Bearer ' + token)
         .expect(200)
         .end((err, res)=>{
@@ -50,10 +48,10 @@ describe('Review CRUD routes tests', function () {
         });
     });
 
-    it('should be Review get by id', function (done) {
+    it('should be History get by id', function (done) {
 
         request(app)
-            .post('/api/reviews')
+            .post('/api/historys')
             .set('Authorization', 'Bearer ' + token)
             .send(mockup)
             .expect(200)
@@ -63,7 +61,7 @@ describe('Review CRUD routes tests', function () {
                 }
                 var resp = res.body;
                 request(app)
-                    .get('/api/reviews/' + resp.data._id)
+                    .get('/api/historys/' + resp.data._id)
                     .set('Authorization', 'Bearer ' + token)
                     .expect(200)
                     .end(function (err, res) {
@@ -72,19 +70,18 @@ describe('Review CRUD routes tests', function () {
                         }
                         var resp = res.body;
                         assert.equal(resp.status, 200);
-                        assert.equal(resp.data.name, mockup.name);
-                        assert.equal(resp.data.description, mockup.description);
-                        assert.equal(resp.data.location, mockup.location);
-                        assert.equal(resp.data.imageurl, mockup.imageurl);
+                        assert.equal(resp.data.historyname, mockup.historyname);
+                        assert.equal(resp.data.historydescription, mockup.historydescription);
+                        assert.equal(resp.data.historyimage, mockup.historyimage);
                         done();
                     });
             });
 
     });
 
-    it('should be Review post use token', (done)=>{
+    it('should be History post use token', (done)=>{
         request(app)
-            .post('/api/reviews')
+            .post('/api/historys')
             .set('Authorization', 'Bearer ' + token)
             .send(mockup)
             .expect(200)
@@ -93,18 +90,17 @@ describe('Review CRUD routes tests', function () {
                     return done(err);
                 }
                 var resp = res.body;
-                assert.equal(resp.data.name, mockup.name);
-                assert.equal(resp.data.description, mockup.description);
-                assert.equal(resp.data.location, mockup.location);
-                assert.equal(resp.data.imageurl, mockup.imageurl);
+                assert.equal(resp.data.historyname, mockup.historyname);
+                assert.equal(resp.data.historydescription, mockup.historydescription);
+                assert.equal(resp.data.historyimage, mockup.historyimage);
                 done();
             });
     });
 
-    it('should be review put use token', function (done) {
+    it('should be history put use token', function (done) {
 
         request(app)
-            .post('/api/reviews')
+            .post('/api/historys')
             .set('Authorization', 'Bearer ' + token)
             .send(mockup)
             .expect(200)
@@ -114,13 +110,12 @@ describe('Review CRUD routes tests', function () {
                 }
                 var resp = res.body;
                 var update = {
-                    name: "ชื่อรีวิว1",
-                    description: "รายละเอียดรีวิว1",
-                    location: "สถานที่1",
-                    imageurl: "www.ggg1.com"
+                    historyname: 'ประวัติความเป็นมา1',
+                    historydescription: 'รายละเอียดความเป็นมา1',
+                    historyimage: 'www.ggg1.com'
                 }
                 request(app)
-                    .put('/api/reviews/' + resp.data._id)
+                    .put('/api/historys/' + resp.data._id)
                     .set('Authorization', 'Bearer ' + token)
                     .send(update)
                     .expect(200)
@@ -129,20 +124,19 @@ describe('Review CRUD routes tests', function () {
                             return done(err);
                         }
                         var resp = res.body;
-                        assert.equal(resp.data.name, update.name);
-                        assert.equal(resp.data.description, update.description);
-                        assert.equal(resp.data.location, update.location);
-                        assert.equal(resp.data.imageurl, update.imageurl);
+                        assert.equal(resp.data.historyname, update.historyname);
+                        assert.equal(resp.data.historydescription, update.historydescription);
+                        assert.equal(resp.data.historyimage, update.historyimage);
                         done();
                     });
             });
 
     });
 
-    it('should be review delete use token', function (done) {
+    it('should be history delete use token', function (done) {
 
         request(app)
-            .post('/api/reviews')
+            .post('/api/historys')
             .set('Authorization', 'Bearer ' + token)
             .send(mockup)
             .expect(200)
@@ -152,7 +146,7 @@ describe('Review CRUD routes tests', function () {
                 }
                 var resp = res.body;
                 request(app)
-                    .delete('/api/reviews/' + resp.data._id)
+                    .delete('/api/historys/' + resp.data._id)
                     .set('Authorization', 'Bearer ' + token)
                     .expect(200)
                     .end(done);
@@ -160,9 +154,9 @@ describe('Review CRUD routes tests', function () {
 
     });
 
-    xit('should be review get not use token', (done)=>{
+    xit('should be history get not use token', (done)=>{
         request(app)
-        .get('/api/reviews')
+        .get('/api/historys')
         .expect(403)
         .expect({
             status: 403,
@@ -171,10 +165,10 @@ describe('Review CRUD routes tests', function () {
         .end(done);
     });
 
-    xit('should be review post not use token', function (done) {
+    xit('should be history post not use token', function (done) {
 
         request(app)
-            .post('/api/reviews')
+            .post('/api/historys')
             .send(mockup)
             .expect(403)
             .expect({
@@ -185,10 +179,10 @@ describe('Review CRUD routes tests', function () {
 
     });
 
-    xit('should be review put not use token', function (done) {
+    xit('should be history put not use token', function (done) {
 
         request(app)
-            .post('/api/reviews')
+            .post('/api/historys')
             .set('Authorization', 'Bearer ' + token)
             .send(mockup)
             .expect(200)
@@ -201,7 +195,7 @@ describe('Review CRUD routes tests', function () {
                     name: 'name update'
                 }
                 request(app)
-                    .put('/api/reviews/' + resp.data._id)
+                    .put('/api/historys/' + resp.data._id)
                     .send(update)
                     .expect(403)
                     .expect({
@@ -213,10 +207,10 @@ describe('Review CRUD routes tests', function () {
 
     });
 
-    xit('should be review delete not use token', function (done) {
+    xit('should be history delete not use token', function (done) {
 
         request(app)
-            .post('/api/reviews')
+            .post('/api/historys')
             .set('Authorization', 'Bearer ' + token)
             .send(mockup)
             .expect(200)
@@ -226,7 +220,7 @@ describe('Review CRUD routes tests', function () {
                 }
                 var resp = res.body;
                 request(app)
-                    .delete('/api/reviews/' + resp.data._id)
+                    .delete('/api/historys/' + resp.data._id)
                     .expect(403)
                     .expect({
                         status: 403,
@@ -238,7 +232,7 @@ describe('Review CRUD routes tests', function () {
     });
 
     afterEach(function (done) {
-        Review.remove().exec(done);
+        History.remove().exec(done);
     });
 
 });

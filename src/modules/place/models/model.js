@@ -5,17 +5,6 @@ var Schema = mongoose.Schema;
 
 
 var PlaceSchema = new Schema({
-    history: {
-        topic: {
-            type: String
-        },
-        description: {
-            type: String
-        },
-        image: {
-            type: String
-        }
-    },
     temple: {
         type: [
             {

@@ -16,12 +16,6 @@ describe('Place CRUD routes tests', function () {
 
     before(function (done) {
         mockup = {
-            history: {
-                topic: "ประวัติความเป็นมา",
-                description: "รายละเอียดประวัติความเป็นมา",
-                image: "www.fff.com"
-
-            },
             temple: [{
                 name: "ชื่อวัด",
                 description: "รายละเอียดวัด",
@@ -92,11 +86,8 @@ describe('Place CRUD routes tests', function () {
                             return done(err);
                         }
                         var resp = res.body;
-                        
+
                         assert.equal(resp.status, 200);
-                        assert.equal(resp.data.history.topic, mockup.history.topic);
-                        assert.equal(resp.data.history.description, mockup.history.description)
-                        assert.equal(resp.data.history.image, mockup.history.image)
 
                         assert.equal(resp.data.temple[0].name, mockup.temple[0].name);
                         assert.equal(resp.data.temple[0].description, mockup.temple[0].description)
@@ -131,9 +122,6 @@ describe('Place CRUD routes tests', function () {
                 }
                 var resp = res.body;
                 assert.equal(resp.status, 200);
-                assert.equal(resp.data.history.topic, mockup.history.topic);
-                assert.equal(resp.data.history.description, mockup.history.description)
-                assert.equal(resp.data.history.image, mockup.history.image)
 
                 assert.equal(resp.data.temple[0].name, mockup.temple[0].name);
                 assert.equal(resp.data.temple[0].description, mockup.temple[0].description)
@@ -167,12 +155,6 @@ describe('Place CRUD routes tests', function () {
                 }
                 var resp = res.body;
                 var update = {
-                    history: {
-                        topic: "ประวัติความเป็นมา1",
-                        description: "รายละเอียดประวัติความเป็นมา1",
-                        image: "www.fff1.com"
-        
-                    },
                     temple: [{
                         name: "ชื่อวัด1",
                         description: "รายละเอียดวัด1",
@@ -205,10 +187,6 @@ describe('Place CRUD routes tests', function () {
                         }
                         var resp = res.body;
                         assert.equal(resp.status, 200);
-                        
-                        assert.equal(resp.data.history.topic, update.history.topic);
-                        assert.equal(resp.data.history.description, update.history.description)
-                        assert.equal(resp.data.history.image, update.history.image)
 
                         assert.equal(resp.data.temple[0].name, update.temple[0].name);
                         assert.equal(resp.data.temple[0].description, update.temple[0].description)
@@ -277,7 +255,7 @@ describe('Place CRUD routes tests', function () {
 
     });
 
-    it('should be place put not use token', function (done) {
+    xit('should be place put not use token', function (done) {
 
         request(app)
             .post('/api/places')
@@ -305,7 +283,7 @@ describe('Place CRUD routes tests', function () {
 
     });
 
-    it('should be place delete not use token', function (done) {
+    xit('should be place delete not use token', function (done) {
 
         request(app)
             .post('/api/places')
